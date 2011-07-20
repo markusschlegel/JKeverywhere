@@ -114,7 +114,3 @@ function getPrevious(scrollPos, posTable) {
 		}
 	}
 }
-
-function getJumpersQuery() {
-	return jumpersQuery;
-}
