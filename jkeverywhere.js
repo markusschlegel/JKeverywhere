@@ -30,6 +30,9 @@ function onDOMReady() {
 			onKDown();
 		}
 	}, false);
+	
+	// Future Chrome/Safari/Firefox plugins check whether this attribute is set and disable themselves accordingly
+	document.body.setAttribute('data-jkenabled', 'yes');
 }
 
 function onJDown() {
