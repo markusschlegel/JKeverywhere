@@ -1,4 +1,6 @@
-// Define default jumpers
+// Defining default jumpers
+// Override for your own site
+// e.g. Wordpress: jumpersQuery = ".post";
 var jumpersQuery = "h1,h2,h3,h4";
 
 document.addEventListener('DOMContentLoaded', onDOMReady, false);
@@ -28,8 +30,6 @@ function onDOMReady() {
 			onKDown();
 		}
 	}, false);
-	
-	console.log(jumpersQuery);
 }
 
 function onJDown() {
@@ -38,16 +38,15 @@ function onJDown() {
 		return false;
 	}
 	
-	var elems = document.querySelectorAll(jumpersQuery);
-	var posTable = generatePosTable(elems);
-	var scrollPos = window.pageYOffset;
-	
-	var next = getNext(scrollPos, posTable);
-	console.log(next);
+	var elems = document.querySelectorAll(jumpersQuery),
+			posTable = generatePosTable(elems),
+			scrollPos = window.pageYOffset,	
+			next = getNext(scrollPos, posTable);
 	
 	if(next) {
 		window.scrollTo(0, next.yPos);
 	} else {
+		// scroll to the bottom when there are no more regular destinations
 		window.scrollTo(0, document.body.offsetHeight);
 	}
 }
@@ -58,22 +57,20 @@ function onKDown() {
 		return false;
 	}
 	
-	var elems = document.querySelectorAll(jumpersQuery);
-	var posTable = generatePosTable(elems);
-	var scrollPos = window.pageYOffset;
-	
-	var prev = getPrevious(scrollPos, posTable);
-	console.log(prev);
+	var elems = document.querySelectorAll(jumpersQuery),
+			posTable = generatePosTable(elems),
+			scrollPos = window.pageYOffset,	
+			prev = getPrevious(scrollPos, posTable);
 
 	if(prev) {
 		window.scrollTo(0, prev.yPos);
 	} else {
+		// scroll to the top when there are no more regular destinations
 		window.scrollTo(0, 0);
 	}
 }
 
-// functions
-//--------
+//----------
 
 // get the absolute Y-offset of obj
 function getYPos(obj) {
@@ -99,12 +96,8 @@ function generatePosTable(elems) {
 function getNext(scrollPos, posTable) {
 	for(var i = 0, l = posTable.length; i < l; i++) {
 		// get next element (FIX: cannot assume that Elements are physically placed on the document like they appear in the DOM)
-		console.log(posTable[i].elem.nodeName + ": " + posTable[i].elem.innerText);
 		if(posTable[i].yPos > scrollPos) {
-			console.log("And its yPos(" + posTable[i].yPos + ") is freaking greater than scrollPos (" + scrollPos + ")");
 			return posTable[i];
-		} else {
-			console.log("And its yPos(" + posTable[i].yPos + ") is not greater than scrollPos (" + scrollPos + ")");
 		}
 	}
 }
